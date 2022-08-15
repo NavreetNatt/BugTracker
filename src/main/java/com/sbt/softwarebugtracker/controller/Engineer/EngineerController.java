@@ -2,6 +2,7 @@ package com.sbt.softwarebugtracker.controller.Engineer;
 
 import com.sbt.softwarebugtracker.dtos.Engineer.requests.DeleteEngineerRequestDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.requests.RegisterEngineerRequestDto;
+import com.sbt.softwarebugtracker.dtos.Engineer.requests.UpdateEngineerRequestDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.responses.APIResponse;
 import com.sbt.softwarebugtracker.exceptions.Engineer.EngineerNotFoundException;
 import com.sbt.softwarebugtracker.exceptions.SBTException;
@@ -52,6 +53,21 @@ public class EngineerController {
         }
     }
 
-
+    @PatchMapping("/update")
+    public ResponseEntity<?> updateEngineerAccount(@RequestBody UpdateEngineerRequestDto updateEngineerRequestDto) {
+        try {
+            APIResponse apiResponse = APIResponse.builder()
+                    .message("id: " + engineerServiceImplementation.updateEngineer(updateEngineerRequestDto, updateEngineerRequestDto.getEmail()))
+                    .isSuccessful(true)
+                    .build();
+            return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
+        } catch (EngineerNotFoundException engineerNotFoundException) {
+            APIResponse apiResponse = APIResponse.builder()
+                    .message(engineerNotFoundException.getMessage())
+                    .isSuccessful(false)
+                    .build();
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

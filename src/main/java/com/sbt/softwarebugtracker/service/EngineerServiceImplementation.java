@@ -1,6 +1,7 @@
 package com.sbt.softwarebugtracker.service;
 
 import com.sbt.softwarebugtracker.dtos.Engineer.requests.DeleteEngineerRequestDto;
+import com.sbt.softwarebugtracker.dtos.Engineer.requests.FetchAllEngineerRequestDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.requests.RegisterEngineerRequestDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.requests.UpdateEngineerRequestDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.responses.DeleteEngineerResponseDto;
@@ -26,8 +27,8 @@ public class EngineerServiceImplementation implements EngineerService {
 
     @Override
     public RegisterEngineerResponseDto registerEngineer(RegisterEngineerRequestDto registerEngineerRequestDto) {
-        Optional<Engineer> optionalUser = engineerRepository.findEngineerByEmail(registerEngineerRequestDto.getEmail());
-        if (optionalUser.isPresent()) {
+        Optional<Engineer> optionalEngineer = engineerRepository.findEngineerByEmail(registerEngineerRequestDto.getEmail());
+        if (optionalEngineer.isPresent()) {
             throw new SBTException("This email address is already in use by another engineer, please use another");
         }
         Engineer engineer = EngineerModelMapper.registerEngineerMap(registerEngineerRequestDto);
@@ -90,7 +91,13 @@ public class EngineerServiceImplementation implements EngineerService {
 
     @Override
     public FindEngineerByRoleResponseDto findEngineerByRole(EngineerRole role) {
+        Optional<Engineer> optionalEngineer = engineerRepository.findEngineerByRole(role);
 
+        return null;
+    }
+
+    @Override
+    public FetchAllEngineerRequestDto fetchAllEngineers(Engineer engineer) {
         return null;
     }
 
