@@ -9,7 +9,6 @@ import com.sbt.softwarebugtracker.dtos.Engineer.responses.FindEngineerByRoleResp
 import com.sbt.softwarebugtracker.dtos.Engineer.responses.RegisterEngineerResponseDto;
 import com.sbt.softwarebugtracker.dtos.Engineer.responses.UpdateEngineerResponseDto;
 import com.sbt.softwarebugtracker.exceptions.Engineer.EngineerNotFoundException;
-import com.sbt.softwarebugtracker.exceptions.Engineer.InvalidInputParamsException;
 import com.sbt.softwarebugtracker.exceptions.SBTException;
 import com.sbt.softwarebugtracker.model.Engineer;
 import com.sbt.softwarebugtracker.model.EngineerRole;
@@ -45,10 +44,7 @@ public class EngineerServiceImplementation implements EngineerService {
 
         Engineer engineerToDelete = optionalEngineer.get();
         engineerRepository.delete(engineerToDelete);
-
-        DeleteEngineerResponseDto deleteEngineerResponseDto = new DeleteEngineerResponseDto();
-        deleteEngineerResponseDto.setMessage("Engineer with email " + deleteEngineerRequestDto.getEmail() + " deleted successfully");
-        return deleteEngineerResponseDto;
+        return EngineerModelMapper.deleteEngineerResponseDto(deleteEngineerRequestDto);
     }
 
     @Override
@@ -59,32 +55,42 @@ public class EngineerServiceImplementation implements EngineerService {
         }
 
         Engineer engineerToUpdate = optionalEngineer.get();
-        if (!(updateEngineerRequestDto.getEmail() == null || updateEngineerRequestDto.getEmail().trim().equals(""))) {
-            engineerToUpdate.setEmail(updateEngineerRequestDto.getEmail());
-        } else {
-            throw new InvalidInputParamsException("Please provide a valid email address");
-        }
-
-        if (!(updateEngineerRequestDto.getFirstName() == null || updateEngineerRequestDto.getFirstName().trim().equals(""))) {
-            engineerToUpdate.setFirstName(updateEngineerRequestDto.getFirstName());
-        } else {
-            throw new InvalidInputParamsException("Enter a name");
-        }
-
-        if (!(updateEngineerRequestDto.getLastName() == null || updateEngineerRequestDto.getLastName().trim().equals(""))) {
-            engineerToUpdate.setLastName(updateEngineerRequestDto.getLastName());
-        } else {
-            throw new InvalidInputParamsException("Enter a name");
-        }
-
-        if (!(updateEngineerRequestDto.getPassword() == null || updateEngineerRequestDto.getPassword().trim().equals(""))) {
-            engineerToUpdate.setPassword(updateEngineerRequestDto.getPassword());
-        } else {
-            throw new InvalidInputParamsException("Please enter a valid password");
-        }
-
-        return null;
+        Engineer updateEngineer = EngineerModelMapper.updateEngineerDetailsMap(updateEngineerRequestDto, engineerToUpdate);
+        engineerRepository.save(updateEngineer);
+        return EngineerModelMapper.updateEngineerDetailsMap(updateEngineer);
     }
+
+//    private static void updateEngineerDetailsMap(UpdateEngineerRequestDto updateEngineerRequestDto, Engineer engineerToUpdate) {
+//        if (!(updateEngineerRequestDto.getEmail() == null || updateEngineerRequestDto.getEmail().trim().equals(""))) {
+//            engineerToUpdate.setEmail(updateEngineerRequestDto.getEmail());
+//        } else {
+//            throw new InvalidInputParamsException("Please provide a valid email address");
+//        }
+//
+//        if (!(updateEngineerRequestDto.getFirstName() == null || updateEngineerRequestDto.getFirstName().trim().equals(""))) {
+//            engineerToUpdate.setFirstName(updateEngineerRequestDto.getFirstName());
+//        } else {
+//            throw new InvalidInputParamsException("Enter a name");
+//        }
+//
+//        if (!(updateEngineerRequestDto.getLastName() == null || updateEngineerRequestDto.getLastName().trim().equals(""))) {
+//            engineerToUpdate.setLastName(updateEngineerRequestDto.getLastName());
+//        } else {
+//            throw new InvalidInputParamsException("Enter a name");
+//        }
+//
+//        if (!(updateEngineerRequestDto.getPassword() == null || updateEngineerRequestDto.getPassword().trim().equals(""))) {
+//            engineerToUpdate.setPassword(updateEngineerRequestDto.getPassword());
+//        } else {
+//            throw new InvalidInputParamsException("Please enter a valid password");
+//        }
+//
+//        if (ENGINEER_ROLES.contains(updateEngineerRequestDto.getEngineerRole())){
+//            engineerToUpdate.setEngineerRole(updateEngineerRequestDto.getEngineerRole());
+//        } else {
+//            throw new InvalidInputParamsException("Please enter a developer role");
+//        }
+//    }
 
 
 //        return null;
