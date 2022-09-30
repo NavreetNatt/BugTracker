@@ -4,5 +4,6 @@ public enum EngineerRole {
     FULLSTACK,
     FRONTEND,
     BACKEND,
-    QUALITY_ASSURANCE
+    QUALITY_ASSURANCE,
+    DEVOPS
 }
