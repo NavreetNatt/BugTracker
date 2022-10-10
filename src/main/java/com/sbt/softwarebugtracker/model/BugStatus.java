@@ -1,6 +1,6 @@
 package com.sbt.softwarebugtracker.model;
 
-public enum Status {
+public enum BugStatus {
     OPEN,
     CLOSED,
     IN_PROGRESS,

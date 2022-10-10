@@ -1,9 +1,10 @@
 package com.sbt.softwarebugtracker.model;
 
 public enum BugSeverity {
-    LOW,
-    MEDIUM,
-    HIGH,
+    TO_BE_RESOLVED_LATER,
+    MILD,
+    MINOR,
+    MAJOR,
     CRITICAL,
-    CATASTROPHIC
+    SHOW_STOPPER
 }

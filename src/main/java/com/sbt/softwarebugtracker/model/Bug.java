@@ -1,7 +1,9 @@
 package com.sbt.softwarebugtracker.model;
 
+import lombok.Data;
 import java.time.LocalDateTime;
 
+@Data
 public class Bug {
     private BugPriority priority;
     private BugSeverity severity;
@@ -9,8 +11,7 @@ public class Bug {
     private String ticketTitle;
     private String ticketDescription;
     private Engineer assignedEngineer;
-    private Status status;
-    private boolean isResolved = false;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Project project;
 }

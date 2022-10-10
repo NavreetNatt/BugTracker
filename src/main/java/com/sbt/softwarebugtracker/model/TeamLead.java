@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NonNull
-public class TechLead {
+public class TeamLead {
     @Id
     @Size(max = 50)
     @Email
