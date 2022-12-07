@@ -9,7 +9,4 @@ import java.util.Optional;
 @Repository
 public interface EngineerRepository extends MongoRepository<Engineer, String> {
     Optional<Engineer> findEngineerByEmail(String email);
-//    List<Engineer> findEngineerByRole(EngineerRole engineerRole);
-
-//    Engineer fetchAllEngineers();
 }
